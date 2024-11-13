@@ -89,20 +89,48 @@ def run_autonomous_mode(agent_executor, config, interval=10):
 
 # Chat Mode
 def run_chat_mode(agent_executor, config, user_input):
-    response = ""
+    responses = []
     try:
         # 假设 agent_executor.stream 返回一个生成器
         for chunk in agent_executor.stream(
                 {"messages": [HumanMessage(content=user_input)]}, config
         ):
             if "agent" in chunk:
-                response = chunk["agent"]["messages"][0].content
+                agent_response = chunk["agent"]["messages"][0].content
+                print(f"agent: {agent_response}")
+                responses.append({"agent": agent_response})  # 将响应添加到列表中
             elif "tools" in chunk:
-                response = chunk["tools"]["messages"][0].content
+                tool_response = chunk["tools"]["messages"][0].content
+                print(f"tools: {tool_response}")
+                responses.append({"tools": tool_response})  # 将响应添加到列表中
             # 你可以在这里根据需要处理更多内容
     except Exception as e:
         response = f"Error: {str(e)}"
-    return response
+    return responses
+
+
+# def run_chat_mode(agent_executor, config):
+#     """Run the agent interactively based on user input."""
+#     print("Starting chat mode... Type 'exit' to end.")
+#     while True:
+#         try:
+#             user_input = input("\nUser: ")
+#             if user_input.lower() == "exit":
+#                 break
+#
+#             # Run agent with the user's input in chat mode
+#             for chunk in agent_executor.stream(
+#                     {"messages": [HumanMessage(content=user_input)]}, config
+#             ):
+#                 if "agent" in chunk:
+#                     print(chunk["agent"]["messages"][0].content)
+#                 elif "tools" in chunk:
+#                     print(chunk["tools"]["messages"][0].content)
+#                 print("-------------------")
+#
+#         except KeyboardInterrupt:
+#             print("Goodbye Agent!")
+#             sys.exit(0)
 
 
 # Mode Selection

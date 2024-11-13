@@ -11,6 +11,7 @@
         .message { padding: 10px; margin-bottom: 10px; border-radius: 5px; }
         .user { background-color: #d1e7ff; }
         .agent { background-color: #e2f0d9; }
+        .tool { background-color: #f1edcc; }
         #user-input { width: 80%; padding: 10px; }
         #send-button { padding: 10px 15px; cursor: pointer; }
     </style>
@@ -105,11 +106,19 @@
         })
             .then(response => response.json())
             .then(data => {
-                const agentMessage = document.createElement("div");
-                agentMessage.classList.add("message", "agent");
-                agentMessage.textContent = `Agent: ${data.response}`;
-                messagesContainer.appendChild(agentMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                const responses = data.response
+                responses.forEach((item=>{
+                    const agentMessage = document.createElement("div");
+                    if(item["agent"]) {
+                        agentMessage.classList.add("message", "agent");
+                        agentMessage.textContent = `Agent: ${item}`;
+                    }else if(item["tools"]) {
+                        agentMessage.classList.add("message", "tool");
+                        agentMessage.textContent = `Tools: ${item}`;
+                    }
+                    messagesContainer.appendChild(agentMessage);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }))
             })
             .catch(error => {
                 console.error('Error:', error);
