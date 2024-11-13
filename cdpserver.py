@@ -5,11 +5,12 @@ import pickle
 app = Flask(__name__)
 app.secret_key = 'cdp_secret_key'
 
+global agent_executor, config
+
+
 # 用于处理聊天的路由
 @app.route('/chat', methods=['POST'])
 def chat():
-    agent_executor = pickle.loads(session['agent_executor'])
-    config = pickle.loads(session['config'])
     user_input = request.json.get('user_input')
     if not user_input:
         return jsonify({"error": "No input provided"}), 400
@@ -38,9 +39,6 @@ def initialize():
 
     print(agent_executor)
     print(config)
-
-    session['agent_executor'] = pickle.dumps(agent_executor)
-    session['config'] = pickle.dumps(config)
 
     return jsonify({"message": "Agent initialized successfully!"}), 200
 
