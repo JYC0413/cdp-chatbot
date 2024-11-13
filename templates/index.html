@@ -111,10 +111,10 @@
                     const agentMessage = document.createElement("div");
                     if(item["agent"]) {
                         agentMessage.classList.add("message", "agent");
-                        agentMessage.textContent = `Agent: ${item}`;
+                        agentMessage.textContent = `Agent: ${item["agent"]}`;
                     }else if(item["tools"]) {
                         agentMessage.classList.add("message", "tool");
-                        agentMessage.textContent = `Tools: ${item}`;
+                        agentMessage.textContent = `Tools: ${item["tools"]}`;
                     }
                     messagesContainer.appendChild(agentMessage);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
