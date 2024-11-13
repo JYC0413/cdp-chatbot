@@ -5,8 +5,6 @@ import pickle
 app = Flask(__name__)
 app.secret_key = 'cdp_secret_key'
 
-global agent_executor, config
-
 
 # 用于处理聊天的路由
 @app.route('/chat', methods=['POST'])
@@ -22,6 +20,8 @@ def chat():
 
 @app.route('/initialize', methods=['POST'])
 def initialize():
+    global agent_executor, config
+
     # 获取用户输入的五个值
     base_url = request.json.get('base_url')
     api_key = request.json.get('api_key')
