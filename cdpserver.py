@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, session
 from chatbot import initialize_agent, run_chat_mode, run_autonomous_mode
 
 app = Flask(__name__)
+app.secret_key = 'cdp_secret_key'
 
 # 用于处理聊天的路由
 @app.route('/chat', methods=['POST'])
