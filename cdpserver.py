@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session
-from chatbot import initialize_agent, run_chat_mode, run_autonomous_mode
+from chatbot import initialize_agent, run_chat_mode
+import pickle
 
 app = Flask(__name__)
 app.secret_key = 'cdp_secret_key'
@@ -7,8 +8,8 @@ app.secret_key = 'cdp_secret_key'
 # 用于处理聊天的路由
 @app.route('/chat', methods=['POST'])
 def chat():
-    agent_executor = session.get('agent_executor')
-    config = session.get('config')
+    agent_executor = pickle.loads(session['agent_executor'])
+    config = pickle.loads(session['config'])
     user_input = request.json.get('user_input')
     if not user_input:
         return jsonify({"error": "No input provided"}), 400
@@ -35,8 +36,11 @@ def initialize():
         base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key
     )
 
-    session['agent_executor'] = agent_executor
-    session['config'] = config
+    print(agent_executor)
+    print(config)
+
+    session['agent_executor'] = pickle.dumps(agent_executor)
+    session['config'] = pickle.dumps(config)
 
     return jsonify({"message": "Agent initialized successfully!"}), 200
 
