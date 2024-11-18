@@ -13,16 +13,10 @@ from langgraph.prebuilt import create_react_agent
 wallet_data_file = "wallet_data.txt"
 
 
-def initialize_agent(base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key):
+def initialize_agent(base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key, wallet_data):
     """Initialize the agent with CDP Agentkit."""
     # Initialize LLM.
     llm = ChatOpenAI(model=model, base_url=base_url, api_key=api_key)
-
-    wallet_data = None
-
-    if os.path.exists(wallet_data_file):
-        with open(wallet_data_file) as f:
-            wallet_data = f.read()
 
     # Configure CDP Agentkit Langchain Extension.
     values = {
@@ -34,11 +28,6 @@ def initialize_agent(base_url, api_key, model, cdp_api_key_name, cdp_api_key_pri
         values["cdp_wallet_data"] = wallet_data
 
     agentkit = CdpAgentkitWrapper(**values)
-
-    # persist the agent's CDP MPC Wallet Data.
-    wallet_data = agentkit.export_wallet()
-    with open(wallet_data_file, "w") as f:
-        f.write(wallet_data)
 
     # Initialize CDP Agentkit Toolkit and get tools.
     cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(agentkit)

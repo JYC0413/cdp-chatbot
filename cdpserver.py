@@ -11,12 +11,13 @@ def chat():
     base_url = "https://llamatool.us.gaianet.network/v1"
     api_key = "LLAMAEDGE"
     model = "llama"
-    cdp_api_key_name = request.json.get('cdp_key_name')
-    cdp_api_key_private_key = request.json.get('cdp_key_private_key')
+    cdp_api_key_name = request.form.get('cdp_key_name')
+    cdp_api_key_private_key = request.form.get('cdp_key_private_key')
+    wallet_data = request.form.get('wallet_data')
     agent_executor, config = initialize_agent(
-        base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key
+        base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key, wallet_data
     )
-    user_input = request.json.get('user_input')
+    user_input = request.form.get('message')
     if not user_input:
         return jsonify({"error": "No input provided"}), 400
 
