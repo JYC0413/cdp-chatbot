@@ -75,8 +75,12 @@
         // 调用聊天接口
         fetch('/chat', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cdp_key_name:cdp_api_key_name_input.value, cdp_key_private_key:cdp_api_key_private_key_input.value, message: userInput })
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'cdp_key_name': cdp_api_key_name_input.value,
+                'cdp_key_private_key': cdp_api_key_private_key_input.value,
+                'message': userInput
+            })
         })
             .then(response => response.json())
             .then(data => {
