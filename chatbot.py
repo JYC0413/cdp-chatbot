@@ -91,8 +91,7 @@ def run_chat_mode(agent_executor, config, user_input):
             elif "tools" in chunk:
                 tool_response = chunk["tools"]["messages"][0].content
                 print(f"tools: {tool_response}")
-                responses.append({"tools": tool_response})  # 将响应添加到列表中
-            # 你可以在这里根据需要处理更多内容
+                responses.append({"tools": tool_response})
     except Exception as e:
         response = f"Error: {str(e)}"
     return responses

@@ -21,19 +21,19 @@
     <h2>Initialize Agent</h2>
     <form id="initialize-form">
         <label for="base_url">Base URL:</label>
-        <input type="text" id="base_url" required><br>
+        <input type="text" id="base_url" value="https://llamatool.us.gaianet.network/v1"/><br>
 
         <label for="api_key">API Key:</label>
-        <input type="text" id="api_key" required><br>
+        <input type="text" id="api_key" value="LLAMAEDGE"/><br>
 
         <label for="model">Model:</label>
-        <input type="text" id="model" required><br>
+        <input type="text" id="model" value="llama"/><br>
 
-        <label for="cdp_api_key_name">CDP API Key Name:</label>
-        <input type="text" id="cdp_api_key_name" required><br>
+        <label for="cdp_api_key_name"><span style="color: red;margin-right: 0.2rem;">*</span>CDP API Key Name:</label>
+        <input type="text" id="cdp_api_key_name" required/><br>
 
-        <label for="cdp_api_key_private_key">CDP API Key Private Key:</label>
-        <input type="text" id="cdp_api_key_private_key" required><br>
+        <label for="cdp_api_key_private_key"><span style="color: red;margin-right: 0.2rem;">*</span>CDP API Key Private Key:</label>
+        <input type="text" id="cdp_api_key_private_key" required/><br>
 
         <button type="submit">Initialize Agent</button>
     </form>
@@ -45,45 +45,19 @@
 </div>
 
 <script>
-    // 初始化代理的表单提交事件
-    document.getElementById("initialize-form").addEventListener("submit", function(event) {
-        event.preventDefault();
+    const api_key_input = document.getElementById("api_key");
+    const cdp_api_key_name_input = document.getElementById("cdp_api_key_name");
+    const cdp_api_key_private_key_input = document.getElementById("cdp_api_key_private_key");
 
-        const base_url = document.getElementById("base_url").value;
-        const api_key = document.getElementById("api_key").value;
-        const model = document.getElementById("model").value;
-        const cdp_api_key_name = document.getElementById("cdp_api_key_name").value;
-        const cdp_api_key_private_key = document.getElementById("cdp_api_key_private_key").value;
+    const checkInput = () => {
+        if(cdp_api_key_name_input.value && cdp_api_key_private_key_input.value) {
+            document.getElementById("user-input").disabled = false;
+            document.getElementById("send-button").disabled = false;
+        }
+    }
 
-        // 调用初始化路由
-        fetch('/initialize', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                base_url,
-                api_key,
-                model,
-                cdp_api_key_name,
-                cdp_api_key_private_key
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    alert(data.message);
-                    // 启用聊天输入框和按钮
-                    document.getElementById("user-input").disabled = false;
-                    document.getElementById("send-button").disabled = false;
-                    // 隐藏初始化表单
-                    document.getElementById("initialize-form").style.display = "none";
-                } else {
-                    alert("Error: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    });
+    cdp_api_key_name_input.oninput = checkInput
+    cdp_api_key_private_key_input.oninput = checkInput
 
     // 发送聊天消息的功能
     document.getElementById("send-button").addEventListener("click", function() {
@@ -102,7 +76,7 @@
         fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user_input: userInput })
+            body: JSON.stringify({ cdp_key_name:cdp_api_key_name_input.value, cdp_key_private_key:cdp_api_key_private_key_input.value, user_input: userInput })
         })
             .then(response => response.json())
             .then(data => {
