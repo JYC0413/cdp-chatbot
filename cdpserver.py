@@ -8,7 +8,7 @@ app.secret_key = 'cdp_secret_key'
 # 用于处理聊天的路由
 @app.route('/chat', methods=['POST'])
 def chat():
-    base_url = "https://llamatool.us.gaianet.network/v1"
+    base_url = "https://llama8b.gaia.domains/v1"
     api_key = "LLAMAEDGE"
     model = "llama"
     cdp_api_key_name = request.form.get('cdp_key_name')
