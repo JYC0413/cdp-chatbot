@@ -76,7 +76,7 @@
         fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cdp_key_name:cdp_api_key_name_input.value, cdp_key_private_key:cdp_api_key_private_key_input.value, user_input: userInput })
+            body: JSON.stringify({ cdp_key_name:cdp_api_key_name_input.value, cdp_key_private_key:cdp_api_key_private_key_input.value, message: userInput })
         })
             .then(response => response.json())
             .then(data => {

@@ -14,10 +14,14 @@ def chat():
     cdp_api_key_name = request.form.get('cdp_key_name')
     cdp_api_key_private_key = request.form.get('cdp_key_private_key')
     wallet_data = request.form.get('wallet_data')
+    print(cdp_api_key_name)
+    print(cdp_api_key_private_key)
+    print(wallet_data)
     agent_executor, config = initialize_agent(
         base_url, api_key, model, cdp_api_key_name, cdp_api_key_private_key, wallet_data
     )
     user_input = request.form.get('message')
+    print(user_input)
     if not user_input:
         return jsonify({"error": "No input provided"}), 400
 
