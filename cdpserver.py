@@ -9,7 +9,7 @@ app.secret_key = 'cdp_secret_key'
 @app.route('/chat', methods=['POST'])
 def chat():
     base_url = "https://llama8b.gaia.domains/v1"
-    api_key = "LLAMAEDGE"
+    api_key = "gaia-ODliZjZmMGQtNDE4NS00NzcwLTliZDAtMWNiYWU2OTJiMmNk-E43wAixGHUpnoSe1"
     model = "llama"
     cdp_api_key_name = request.form.get('cdp_key_name')
     cdp_api_key_private_key = request.form.get('cdp_key_private_key')
